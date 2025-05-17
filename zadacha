@@ -1,0 +1,75 @@
+; Задача: Проверить, является ли X=1, X=2, X=3 или X=4 корнем уравнения X² - mX + n = 0
+; Если да — вывести '1', иначе — '0'
+
+JMP start
+
+start:
+    ; --- Инициализация ---
+    MOV B, 4        ; m = 3
+    MOV D, 4        ; n = 2
+
+    ; --- Проверка x = 1 ---
+    MOV A, 1
+    MUL A
+    MOV C, A        ; C = x^2
+    MOV A, B
+    MUL 1           ; A = m * x
+    SUB C, A        ; C = x^2 - m*x
+    ADD C, D        ; C = x^2 - m*x + n
+    CMP C, 0
+    JZ found_root_x1
+    MOV [0xE8], 48  ; '0'
+    JMP check_x2
+found_root_x1:
+    MOV [0xE8], 49  ; '1'
+
+check_x2:
+    ; --- Проверка x = 2 ---
+    MOV A, 2
+    MUL A
+    MOV C, A        ; C = x^2
+    MOV A, B
+    MUL 2           ; A = m * x
+    SUB C, A        ; C = x^2 - m*x
+    ADD C, D        ; C = x^2 - m*x + n
+    CMP C, 0
+    JZ found_root_x2
+    MOV [0xE9], 48  ; '0'
+    JMP check_x3
+found_root_x2:
+    MOV [0xE9], 49  ; '1'
+
+check_x3:
+    ; --- Проверка x = 3 ---
+    MOV A, 3
+    MUL A
+    MOV C, A        ; C = x^2
+    MOV A, B
+    MUL 3           ; A = m * x
+    SUB C, A        ; C = x^2 - m*x
+    ADD C, D        ; C = x^2 - m*x + n
+    CMP C, 0
+    JZ found_root_x3
+    MOV [0xEA], 48  ; '0'
+    JMP check_x4
+found_root_x3:
+    MOV [0xEA], 49  ; '1'
+
+check_x4:
+    ; --- Проверка x = 4 ---
+    MOV A, 4
+    MUL A
+    MOV C, A        ; C = x^2
+    MOV A, B
+    MUL 4           ; A = m * x
+    SUB C, A        ; C = x^2 - m*x
+    ADD C, D        ; C = x^2 - m*x + n
+    CMP C, 0
+    JZ found_root_x4
+    MOV [0xEB], 48  ; '0'
+    JMP finish
+found_root_x4:
+    MOV [0xEB], 49  ; '1'
+
+finish:
+    HLT
